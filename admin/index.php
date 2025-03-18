@@ -49,6 +49,12 @@ if (isset($_POST['delete_user'])) {
 }
 
 // Handle admin password change
+try {
+    $dba = new PDO('sqlite:../admin.db');
+    $dba->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
 if (isset($_POST['change_admin_password'])) {
     $current_password = $_POST['current_password'];
     $new_password = $_POST['new_password'];
@@ -56,8 +62,8 @@ if (isset($_POST['change_admin_password'])) {
 
     try {
         // Verify current password
-        $stmt = $db->prepare("SELECT password_hash FROM admins WHERE username = :username");
-        $stmt->bindValue(':username', $_SESSION['admin_username']);
+        $stmt = $dba->prepare("SELECT password_hash FROM admins WHERE id = :id");
+        $stmt->bindValue(':id', $_SESSION['user_id']);
         $stmt->execute();
         $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -66,9 +72,9 @@ if (isset($_POST['change_admin_password'])) {
             if ($new_password === $confirm_password) {
                 $new_hash = password_hash($new_password, PASSWORD_BCRYPT);
 
-                $update_stmt = $db->prepare("UPDATE admins SET password_hash = :password_hash WHERE username = :username");
+                $update_stmt = $dba->prepare("UPDATE admins SET password_hash = :password_hash WHERE id = :id");
                 $update_stmt->bindValue(':password_hash', $new_hash);
-                $update_stmt->bindValue(':username', $_SESSION['admin_username']);
+                $update_stmt->bindValue(':id', $_SESSION['user_id']);
                 $update_stmt->execute();
 
                 $success_message = "Password changed successfully!";
