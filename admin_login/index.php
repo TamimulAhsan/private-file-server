@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'path' => '/',
                 'domain' => '192.168.1.100', // Or your domain name
                 'secure' => false, // Set to true if using HTTPS
-                'httponly' => true, // Or set to False
+                'httponly' => true,
                 'samesite' => 'Lax' // Or 'Strict' depending on your needs
             ]); 
 
