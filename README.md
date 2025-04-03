@@ -19,6 +19,8 @@ This is a private file server built using [Directory Lister](https://www.directo
     * Download the latest version of Directory Lister from [directorylister.com](https://www.directorylister.com/).
     * Extract the files to the "/files" directory.
 2.  **Setting Up**
+    * Install PHP8.4, PHP8.4-fpm, PHP zip,xml,sqlite3
+    `sudo apt install php8.4 php8.4-fpm php8.4-zip php8.4-xml php8.4-sqlite3`
     * Update `/index.php` and `/admin_login/index.php` Session Validation section.
     * Copy the contents of nginx.conf file and put in your nginx installation directory. Change domain, and php-fpm version according to your needs.
 3.  **Configure Directory Lister:**
